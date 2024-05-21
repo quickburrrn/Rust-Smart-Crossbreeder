@@ -105,14 +105,18 @@ fn main() {
 
         Some(Commands::Crossbreed { seeds }) => {
             //gets the seeds
-            // let mut crossbreed_seeds : Vec<[&str; 6]>; 
+            let mut crossbreed_seeds : Vec<[String; 6]> = Vec::new(); 
 
             //need to put the result in a list and transpose before calculating
             for seed in seeds.split(','){
-                let index : usize = seed.parse().unwrap();
-                println!("{:?}", &loaded_seeds[index]);
-                // crossbreed_seeds.push()
+                let mut result : [String; 6] = ["".to_string(), "".to_string(), "".to_string(), "".to_string(), "".to_string(), "".to_string()];
+                //this is not right
+                for (i, field) in seed.chars().into_iter().enumerate(){
+                    result[i] = field.to_string();
+                }
+                crossbreed_seeds.push(result)
             }
+            println!("{:?}", crossbreed_seeds)
         }
 
         Some(Commands::Find { }) => {
