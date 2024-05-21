@@ -32,7 +32,7 @@ enum Commands{
     /// You can crossbreed manualy usese seed number for instance --seeds "0,4,7,4"
     Crossbreed{
         #[arg(short, long)]
-        crossbreding_seeds: String,
+        seeds: String,
     },
     /// Finds the best combination for you
     Find{
@@ -42,11 +42,11 @@ enum Commands{
 
 fn main() {
     //contains all the loaded seeds
-    let mut seeds : Vec<[String; 6]> = Vec::new();
+    let mut loaded_seeds : Vec<[String; 6]> = Vec::new();
 
     match load_seeds() {
         Ok(output) => {
-            seeds = output;
+            loaded_seeds = output;
         }        
         Err (err) =>{
             eprintln!("Error loading seeds: {}", err)
@@ -63,8 +63,8 @@ fn main() {
             if seed != "" {
                 match verify_seeds(seed.to_string()) {
                     Some(s) => {
-                        seeds.push(s);
-                        match save_seeds(seeds) {
+                        loaded_seeds.push(s);
+                        match save_seeds(loaded_seeds) {
                             Ok(_) => println!("Added seed"),
                             Err(_) => println!("error saving seeds")
                         }
@@ -86,7 +86,7 @@ fn main() {
         },
 
         Some(Commands::Show {  })=>{
-            for (i, seed) in seeds.into_iter().enumerate(){
+            for (i, seed) in loaded_seeds.into_iter().enumerate(){
                 print!("{i} ");
                 for gene in seed{
                     print!("{gene}")
@@ -96,16 +96,22 @@ fn main() {
         },
 
         Some(Commands::Clear {  }) => {
-            seeds = Vec::new();
-            match save_seeds(seeds) {
+            loaded_seeds = Vec::new();
+            match save_seeds(loaded_seeds) {
                 Ok(_) => println!("Cleared seeds"),
                 Err(_) => println!("error saving seeds")
             }
         }
 
-        Some(Commands::Crossbreed { crossbreding_seeds }) => {
-            for seed in crossbreding_seeds.split(','){
-                
+        Some(Commands::Crossbreed { seeds }) => {
+            //gets the seeds
+            // let mut crossbreed_seeds : Vec<[&str; 6]>; 
+
+            //need to put the result in a list and transpose before calculating
+            for seed in seeds.split(','){
+                let index : usize = seed.parse().unwrap();
+                println!("{:?}", &loaded_seeds[index]);
+                // crossbreed_seeds.push()
             }
         }
 
