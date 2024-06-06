@@ -1,8 +1,8 @@
 mod components;
 
 use iced::{executor, Application, Command, Element, Length, Settings, Theme};
-use iced::widget::{button, column, text, Column};
-use components::gene::{Gene};
+use iced::widget::{button, column, text, Canvas, Column};
+use components::gene::{self, Gene};
 
 // Define the main struct for the application
 struct MyApp;
@@ -33,16 +33,19 @@ impl Application for MyApp {
 
     fn view(&self) -> Element<Self::Message> {
         
-        Column::new()
-            .push(text("Hello World").size(60))
+        // Column::new()
+        //     .push(text("Hello World").size(60))
+        //     .width(Length::Fill)
+        //     .height(Length::Fill)
+        //     .align_items(iced::Alignment::Center)
+        //     .push(text("Hello").size(40))
+        //     .push(button("Hello"))
+        //     .into()
+
+        Canvas::new(Gene)
             .width(Length::Fill)
             .height(Length::Fill)
-            .align_items(iced::Alignment::Center)
-            .push(text("Hello").size(40))
-            .push(Gene::new().view())
-            .push(button("Hello"))
             .into()
-
     }
 
 }
